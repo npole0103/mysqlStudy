@@ -14,9 +14,17 @@ MySQLStudy
 
 표(table) : 관계형데이터베이스에서 데이터가 저장되는 공간
 
-스키마(table) : 연관된 표들을 그루핑 해놓은 일종의 폴더 개념.
+스키마(schema) : 연관된 표들을 그루핑 해놓은 일종의 폴더 개념.
 
 데이터베이스 서버 : 스키마가 존재하는 공간을 뜻함.
+
+SQL : Structured Query Language
+
+행 : row, record
+
+열 : column
+
+PRIMARY KEY : 중복을 방지한다라는 의미를 가짐.
 
 ---
 
@@ -28,13 +36,37 @@ MySQLStudy
 
 디비 목록 : `SHOW DATABASES;`
 
-디비 사용 : `USE 디비이름;`
+디비 사용(스키마 선택) : `USE 디비이름;`
 
 ---
 
 ## 문법
 
+CREATE TABLE
 
+``` sql
+CREATE TABLE topic(
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    description TEXT NULL,
+    created DATETIME NOT NULL,
+    author VARCHAR(30) NULL,
+    profile VARCHAR(100) NULL,
+    PRIMARY KEY(id));
+```
+
+`INT(11)`에서 11에 의미는 데이터를 얼마나 노출할 것이냐 라는 뜻이다. 관행적으로 11을 많이 씀.
+
+`NULL`은 값이 없는 것을 허용한다는 의미.
+
+`NOT NULL`의 의미는 값이 없는 경우를 배제한다는 뜻이다. 공백을 허용하지 않는다라는 의미.
+
+`AUTO_INCREMENT`를 설정하면 데이터가 추가될 때 이전 행의 숫자보다 하나 더 높은 숫자로 자동 설절된다.
+
+`VARCHAR(size)` : size로 설정된 값보다 더 많은 값이 입력되면 초과된 만큼 지워버린다.
+
+
+---
 ## etc
 
 ### DATABASE 1
