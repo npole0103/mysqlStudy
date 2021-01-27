@@ -2,6 +2,9 @@
 MySQLStudy
 
 ---
+
+
+---
 ## etc
 
 ### DATABASE 1
@@ -20,6 +23,21 @@ CRUD : CREATE READ UPDATE DELETE
 MongoDB는 Document store이다.
 
 MySQL은 오픈소스이면서 무료이다.
+
+---
+### DATABASE 2
+
+파일 형식의 데이터 관리법에서 정리정돈과 가공하기 용이한 데이터베이스 시스템을 고안해 냄.
+
+1970 IBM에서 Relational Database를 출시.
+
+DBMS를 이용하면 데이터를 표로 정돈할 수 있으며, 정렬 검색과 같은 기능을 안전하고 빠르게 할 수 있다.
+
+스웨덴에서 개발된 MySQL
+
+DBMS와 스프레드 시트의 공통점은 데이터를 표의 형태로 표현해준다.
+
+
 
 ---
 
