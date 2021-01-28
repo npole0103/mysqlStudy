@@ -38,11 +38,13 @@ PRIMARY KEY : 중복을 방지한다라는 의미를 가짐.
 
 디비 사용(스키마 선택) : `USE 디비이름;`
 
+Clear : `system cls;`
+
 ---
 
 ## 문법
 
-CREATE TABLE
+### CREATE TABLE
 
 ``` sql
 CREATE TABLE topic(
@@ -65,6 +67,49 @@ CREATE TABLE topic(
 
 `VARCHAR(size)` : size로 설정된 값보다 더 많은 값이 입력되면 초과된 만큼 지워버린다.
 
+`DESC 테이블명;` : Describe table. 테이블의 구조가 나옴.
+
+---
+### INSERT TABLE
+
+``` sql
+INSERT INTO topic (title, description, created, author, profile) VALUES('MySQL', 'MySQL is....', NOW(), 'npole0103', 'developer');
+```
+
+### SELECT
+
+테이블에 들어있는 모든 값 확인
+
+``` sql
+SELECT * FROM topic;
+```
+'*' 기호는 ALL의 의미를 가짐.
+
+테이블에서 특정 열만 확인
+``` sql
+SELECT id, title, created, author FROM topic;
+```
+
+특정 값이 존재하는 행만 읽어오기
+```sql
+SELECT id, title, created, author FROM topic WHERE author="npole0103";
+```
+
+특정 값을 기준으로 정렬하기
+``` sql
+SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY id DESC;
+```
+
+원하는 갯수 만큼만 데이터 확인
+``` sql
+SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY id DESC LIMIT 2;
+```
+`LIMIT 2`는 상위 데이터 2개만 보여달라는 것을 나타냄.
+
+---
+### UPDATE
+
+### DELETE
 
 ---
 ## etc
