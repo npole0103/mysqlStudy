@@ -44,6 +44,9 @@ Clear : `system cls;`
 
 ## 문법
 
+테이블 명 변경.
+`RENAME TABLE '기존 테이블 이름' TO '새로운 이름';`
+
 ### CREATE TABLE
 
 ``` sql
@@ -127,9 +130,25 @@ DELETE FROM topic WHERE id=5;
 
 ---
 
+### JOIN
+
+관계형 데이터베이스에서 가장 중요시 되는 개념.
+
+``` sql
+
+전체 출력
+SELECT * FROM topic LEFT JOIN author ON topic.author_id=author.id;
 
 
+author_id와 author.id 제외하고 출력
+SELECT topic.id, title, description, created, name, profile FROM topic LEFT JOIN author ON topic.author_id=author.id;
 
+topic의 id값을 topic_id로 변경 'AS'사용
+SELECT topic.id AS topic_id, title, description, created, name, profile FROM topic LEFT JOIN author ON topic.author_id=author.id;
+
+```
+
+[INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN](https://stackoverflow.com/questions/5706437/whats-the-difference-between-inner-join-left-join-right-join-and-full-join)
 
 
 ## etc
@@ -165,6 +184,8 @@ DBMS를 이용하면 데이터를 표로 정돈할 수 있으며, 정렬 검색�
 DBMS와 스프레드 시트의 공통점은 데이터를 표의 형태로 표현해준다.
 
 유저에 따라 권한을 부여하는 것이 가능함.
+
+관계형 데이터베이스가 필요한 이유 : 중복의 발생 시키지 않으면서, 유지보수가 훨씬 쉬워짐. 저장은 분산되게 하며 결과는 합쳐서 보여주는 것이 요구됨.
 
 ---
 
