@@ -113,11 +113,25 @@ SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY i
 UPDATE 테이블명 SET  column_name="변경할 내용" WHERE column_name="어떤 열의 값을 바꿀 것인지에 대한 기준값";
 
 UPDATE topic SET description="Oracle is....", title="Oracle" WHERE id=2;
+
 ```
 
-### DELETE
+※ WHERE 을 넣지 않으면 모든 행이 변경하고자 하는 열 값으로 변경됨.
 
 ---
+### DELETE
+id값이 5인 행을 삭제.
+``` sql
+DELETE FROM topic WHERE id=5;
+```
+
+---
+
+
+
+
+
+
 ## etc
 
 ### DATABASE 1
