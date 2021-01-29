@@ -109,6 +109,12 @@ SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY i
 ---
 ### UPDATE
 
+``` sql
+UPDATE 테이블명 SET  column_name="변경할 내용" WHERE column_name="어떤 열의 값을 바꿀 것인지에 대한 기준값";
+
+UPDATE topic SET description="Oracle is....", title="Oracle" WHERE id=2;
+```
+
 ### DELETE
 
 ---
