@@ -162,7 +162,6 @@ MySQL workbench도 Client이며, GUI기반의 프로그램임.
 
 수많은 클라이언트가 하나의 데이터베이스 서버를 이용해서 정보를 주고 받는 것이 가능해 짐.
 
-
 ---
 ## etc
 
@@ -200,9 +199,20 @@ DBMS와 스프레드 시트의 공통점은 데이터를 표의 형태로 표현
 
 관계형 데이터베이스가 필요한 이유 : 중복의 발생 시키지 않으면서, 유지보수가 훨씬 쉬워짐. 저장은 분산되게 하며 결과는 합쳐서 보여주는 것이 요구됨.
 
----
+`./mysql -uroot -p -h127.0.0.1` : 원하는 IP에 있는 MySQL 서버로 접속가능.
 
+다만 -h를 생략하면 Default로 Monitor(Client)가 설치되어있는 MySQL Server를 가르킴.
 
+데이터가 많아지면 데이터를 관리하기 힘들기 때문에 처음부터 정리정돈을 잘해야 함.
 
+INDEX(색인) : 데이터가 많아지면 Index(색인) 기능을 활용하면 미리 읽어놨던(많이 접근하기에 미리 뽑아놓은) 데이터를 빠르게 읽어올 수 있다.
+
+Modeling(모델링) : 테이블 설계를 효율적으로 중복없이 더 좋은 성능으로 하는 것.
+
+Backup(백업) : 백업의 기본적인 원리는 데이터를 복제해서 보관. 키워드 : mysqldump, binary log
+
+Cloud(클라우드) : 큰 회사들이 운영하고 있는 인프라 위에 있는 컴퓨터를 사용하는 것이 클라우드컴퓨팅 기술임. 원격제어를 통해 다룸. AWS RDS, Google Cloud SQL for MySQL, AZURE Database for MySQL
+
+프로그래밍 : Python mysql api, PHP mysql api, Java mysql api
 
 ---
