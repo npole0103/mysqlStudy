@@ -150,7 +150,20 @@ SELECT topic.id AS topic_id, title, description, created, name, profile FROM top
 
 [INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN](https://stackoverflow.com/questions/5706437/whats-the-difference-between-inner-join-left-join-right-join-and-full-join)
 
+---
+### 인터넷과 데이터베이스의 관계
 
+Client - Server 
+클라이언트에선 request를 서버에 보내고 서버는 response를 클라이언트에 보냄.
+
+MySQL monitor가 Database의 client이며, 명령어로 조작하는 프로그램임.
+
+MySQL workbench도 Client이며, GUI기반의 프로그램임.
+
+수많은 클라이언트가 하나의 데이터베이스 서버를 이용해서 정보를 주고 받는 것이 가능해 짐.
+
+
+---
 ## etc
 
 ### DATABASE 1
