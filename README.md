@@ -215,4 +215,16 @@ Cloud(클라우드) : 큰 회사들이 운영하고 있는 인프라 위에 있�
 
 프로그래밍 : Python mysql api, PHP mysql api, Java mysql api
 
+### LEFT JOIN, RIGHT JOIN, FULL JOIN
+
+[stack overflow](https://stackoverflow.com/questions/5706437/whats-the-difference-between-inner-join-left-join-right-join-and-full-join)
+
+INNER JOIN : 두 테이블에 일치하는 항목이 있으면 행을 반환.
+
+LEFT JOIN : 오른쪽 테이블에 일치하는 항복이 없더라도 왼쪽 테이블의 모든 행을 반환.
+
+RIGHT JOIN : 왼쪽 테이블에 일치하는 항목이 없더라도 오른쪽 테이블 모든 행 반환.
+
+FULL JOIN : 왼쪽과 오른쪽 OUTER JOIN의 결과를 결합.
+
 ---
