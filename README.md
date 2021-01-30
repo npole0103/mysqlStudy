@@ -227,4 +227,7 @@ RIGHT JOIN : 왼쪽 테이블에 일치하는 항목이 없더라도 오른쪽 �
 
 FULL JOIN : 왼쪽과 오른쪽 OUTER JOIN의 결과를 결합.
 
++ LEFT OUTER JOIN == LEFT JOIN
++ INNER JOIN == JOIN
+
 ---
