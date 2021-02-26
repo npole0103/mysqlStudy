@@ -47,6 +47,31 @@ Clear : `system cls;`
 테이블 명 변경.
 `RENAME TABLE '기존 테이블 이름' TO '새로운 이름';`
 
+DDL(Data Definition Language)  
+- CREATE : 테이블 생성
+- DROP : 테이블 제거
+- ALTER : 테이블 변경
+- truncate : 데이터 삭제
+
+DQL(Data Query Language)  
+- SELECT : 테이블 내용 검색
+
+DML(Data Manipulation Language)
+- INSERT : 테이블 내용 삽입
+- DELETE : 테이블 내용 삭제
+- UPDATE : 테이블 내용 수정
+
+---
+### ALTER TABLE
+
+`ALTER TABLE 테이블명 ADD 새로운컬럼 VARCHAR(20) NULL;` : NULL 값을 허용하며, VARCHAR(20)인 컬럼을 추가함.
+
+`ALTER TABLE 테이블명 DROP COLUMN 컬럼이름;` : 칼럼을 삭제함.
+
+`ALTER TABLE 테이블명 ADD COLUMN 칼럼이름 DECIMAL(5, 2);` : 기존 VARCHAR(20)이었던 데이터 타입을 DECIMAL 형태로 변경
+
+
+---
 ### CREATE TABLE
 
 ``` sql
@@ -101,6 +126,7 @@ SELECT id, title, created, author FROM topic WHERE author="npole0103";
 특정 값을 기준으로 정렬하기
 ``` sql
 SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY id DESC;
+SELECT id, title, created, author FROM topic WHERE author="npole0103" ORDER BY id ACS;
 ```
 
 원하는 갯수 만큼만 데이터 확인
@@ -181,6 +207,33 @@ CRUD : CREATE READ UPDATE DELETE
 MongoDB는 Document store이다.
 
 MySQL은 오픈소스이면서 무료이다.
+
+평균 구하는 법 : `SELECT AVG (author_id) AS authorAVG FROM topic;`
+
+똑같은 테이블을 만들어 모든 내용 복사
+``` sql
+DROP TABLE CustomersNew;
+
+CREATE TABLE CustomersNew
+(
+  cust_id      char(10 )  NOT NULL ,
+  cust_name    char(50 )  NOT NULL ,
+  cust_address char( 50)  NULL ,
+  cust_city    char(50 )  NULL ,
+  cust_state   char(5 )   NULL ,
+  cust_zip     char(10 )  NULL ,
+  cust_country char( 50)  NULL ,
+  cust_contact char( 50)  NULL ,
+  cust_email   char(255 ) NULL
+);
+
+INSERT INTO CustomersNew
+SELECT *
+FROM Customers;
+
+SELECT *
+FROM CustomersNew;
+```
 
 ---
 ### DATABASE 2
