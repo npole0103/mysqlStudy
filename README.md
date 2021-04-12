@@ -284,3 +284,186 @@ FULL JOIN : 왼쪽과 오른쪽 OUTER JOIN의 결과를 결합.
 + INNER JOIN == JOIN
 
 ---
+## Midterm Exam
+
+``` sql
+
+```
+
+### Chap 2
+1. Select
+``` sql
+SELECT * FROM department
+```
+2. Project
+``` sql
+SELECT id, name FROM instructor
+```
+3. Cartiesian Product
+``` sql
+SELECT * FROM instructor, teaches
+```
+4. Union & Set intersection
+``` sql
+SELECT course_id FROM section WHERE semester="Fall" and year="2017" union SELECT course_id FROM section WHERE semester="Spring" and year="2018"
+
+SELECT course_id FROM section WHERE semester="Fall" and year="2017" intersect SELECT course_id FROM section WHERE semester="Spring" and year="2018"
+```
+5. Set Difference
+``` sql
+SELECT course_id FROM section WHERE semester="Fall" and year="2017" EXCEPT SELECT course_id FROM section WHERE semester="Spring" and year="2018"
+```
+6. The Assignment
+
+---
+### Chap 3
+
+도메인 타입들
+- char(n) : 고정 길이의 스트링 ex) char(5)에 ABC 저장하면 ‘ABC  ’로 저장됨
+- varchar(n) : 가변 길이의 스트링 ex) varchar(5)에 ABC 저장하면 ‘ABC’로 저장됨
+- int : 각 머신에 의존적이다 64bit 32bit
+- smallint : 스몰 인트 동일하게 머신에 의존적
+- numeric(p, d) : precision 유효숫자, digit 소숫점 몇까지 볼 것이냐
+ex) numeric(3, 1) allows 44.5 to be stores exactly, but not 444.5, 0.32
+- real, double precision : real = float, double = double로 보면 됨.
+- float(n) : 부동 소수점 최소한의 숫자.
+
+Create Table
+``` sql
+CREATE TABLE instructor(
+  ID char(5),
+  name varchar(20) not null,
+  dept_name varchar(20),
+  salary numeric(8,2),
+  primary key(ID),
+  foreign key(dept_name) references department
+);
+```
+department 릴레이션의 기본키를 dept_name에 참조하라.
+
+Insert
+``` sql
+INSERT INTO instructor values ('10211', 'Smith', 'Biology', 66000);
+```
+
+Delete : 모든 튜플들을 지움
+``` sql
+DELETE FROM student
+```
+Drop Table : 테이블 삭제
+``` sql
+DROP TABLE R
+```
+Alter : 컬럼 추가, 컬럼 삭제
+``` sql
+ALTER TABLE R ADD 어트리뷰트명 타입
+
+ALTER TABLE R DROP 어트리뷰트명
+```
+
+Distinct 중복제거
+``` sql
+SELECT DISTINCT dept_name FROM instructor
+```
+
+Select 문자열 / 사칙연산
+``` sql
+SELECT 'abc' FROM instructor
+
+SELECT ID, name, salary/12 FROM instructor
+```
+
+전산학과 교수보다 연봉이 높으면 선택 중복없이
+``` sql
+SELECT DISTINCT T.name FROM instructor as T, instructor as S WHERE T.salary > S.salary and S.dept_name="Comp. Sci."
+```
+
+1. Intro로 시작하는 단어 : Intro%
+2. 앞 뒤에 무엇이 있든 Comp를 포함하는 단어 : %Comp%
+3. 길이 3의 문자열 : '___'
+4. 길이 3이상의 문자열 : '___%'
+``` sql
+SELECT name FROM instructor WHERE name like '%dar%'
+```
+정렬 - 오름차순 / 내림차순
+``` sql
+SELECT DISTINCT name FROM instructor ORDER BY name;
+SELECT DISTINCT name FROM instructor ORDER BY name ASC; 
+
+SELECT DISTINCT name FROM instructor ORDER BY name DESC;
+```
+
+NULL / NOT NULL : NOT NULL이면 값이 들어있는 값 전부 출력
+``` sql
+SELECT name FROM instructor WHERE salary is null
+SELECT name FROM instructor WHERE salary is not null
+```
+
+집계함수
+``` sql
+SELECT avg(salary) FROM instrutor WHERE dept_name="Comp. Sci."
+
+SELECT count (DISTINCT ID) FROM teaches WHERE semester="Spring" and year="2018"
+
+SELECT count(*) FROM course
+
+SELECT dept_name, avg(salary) as avg_salary FROM instructor GROUP BY dept_name
+집계함수 쓰지 않은 어트리뷰트는 전부 GROUP BY 에 넣어줘야함
+
+SELECT dept_name, avg(salary) as avg_salary FROM instructor GROUP BY dept_name HAVING avg(salary) > 42000
+```
+
+Nested Subqueries 종복된 서브쿼리
+
+서브쿼리 내에 있는 course_id에 해당하는 값만 보겠다는 것임
+``` sql
+SELECT DISTINCT course_id FROM section WHERE semester="Fall" AND year=2017 AND course_id IN (SELECT course_id FROM section WHERE semester="Spring" and year=2018)
+```
+
+some은 해당하는 서브쿼리 내에 있는 어떠한 값보다도 커야함.
+만약 10000/9000/8000이 있으면 가장 낮은 8000보다 커야함 하나라도 만족하면 true반환
+
+all은 일부가 아닌 전체이기 때문에 제일 최고 연봉자와 비교해서 제일 커야함.
+``` sql
+SELECT name FROM instructor WHERE salary > some(SELECT salary FROM instructor WHERE dept_name="Biology")
+```
+
+Exists 존재하는지 여부
+``` sql
+SELECT course_id FROM section as S WHERE semester="Fall" and year=2017 and exists(SELECT * FROM section as T WHERE semester="Spring" and year=2018 and S.course_id = T.course_id)
+```
+
+Exists 공집합이여야 트루가 됨. 생물학과에서 들어야하는 모든 강의를 수강한 것.
+``` sql
+SELECT DISTINCT S.ID S.name FROM student as S WHERE not exists(
+  (SELECT course_id FROM course WHERE dept_name="Biology") except
+  (SELECT T.course_id FROM takes as T WHERE S.ID = T.ID)
+)
+```
+
+Unique : 튜플에 중복값 있는지 없는지 테스트 / 봄 가을에 둘 다 개설되었던 과목은 중복으로 나타나서 false처리 되고 봄 혹은 가을에 한번만 계설되었던 것들만 출력됨.
+``` sql
+SELECT T.course_id FROM course as T WHERE unique(SELECT R.course_id FROM section as R WHERE T.course_id = R.course_id and R.year=2017)
+```
+
+Subqueries in the from : FROM절 안에 중복된 서브 쿼리
+``` sql
+SELECT dept_name , avg_salary FROM
+(
+  SELECT dept_name , avg (salary) as avg_salary FROM instructor
+GROUP BY dept_name
+) WHERE avg_salary > 42000
+```
+
+With절 : 쿼리에서 사용될 임시 릴레이션을 만들어 줌
+``` sql
+with max_budget(value) as (SELECT max(budget) FROM department)
+SELECT dept_name FROM department, max_budget WHERE department.budget = max_budget.value;
+```
+
+UPDATE
+``` sql
+UPDATE instructor SET salary = salary * 1.03 WHERE salary > 100000
+```
+
+---
