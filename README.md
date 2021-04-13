@@ -466,4 +466,86 @@ UPDATE
 UPDATE instructor SET salary = salary * 1.03 WHERE salary > 100000
 ```
 
+### Chap 4
+
+- Natural Join : 두 테이블의 같은 컬럼 기준으로 조인함. 그래서 정보 손실이 일어날 수 있음.
+- Left Outer Join : 왼쪽 테이블을 기준으로 조인
+- Right Outer Join : 오른쪽 테이블을 기준으로 조인
+- Full Outer Join : 양 테이블 모두를 고려해서 조인
+- Inner Join : 둘 다 매칭하는 쪽에 대해서만 조인 Inner는 생략가능
+
+Views : 일종의 가상 릴레이션
+뷰는 생성하는 것이 아닌 쿼리문 자체를 객체화 시킴
+``` sql
+CREATE view faculty as SELECT ID, name, dept_name FROM instructor
+```
+v1이라는 뷰를 만들 때 v2를 사용했다면 depend directly라고 말함.
+직접/간접 둘 다를 표현할 때는 depend on이라고 표현함.
+
+뷰를 정의할 때 쓰였던 쿼리(수식)로 치환됨!!!
+이유는 뷰를 저장하게 되면 뷰가 참조하는 테이블에서 변경사항이 일어났을 때 그 데이터를 누락하게 된다. 이때 뷰가 수식으로 참조를 한다면 테이블 변경사항이 업데이트 된 테이블을 참조하게 되므로 데이터 손실이 없다. 그래서 물리적으로 저장하지 않고 쿼리(수식)으로 치환하는 것.
+
+View에서 Update를 허용하는 4가지 경우
+1. FROM절에 단 하나의 릴레이션만 존재하는 경우
+2. SELECT 문에서는 오로지 어트리뷰트의 이름만 나와야함. (사칙연산, 집계함수 DISTINCT)X
+3. SELECT 문에서 등장하지 않은 것들은 NULL로 표시될 수 있어야한다.
+4. GROUP BY와 HAVING 문을 사용할 수 없다. (당연함 집계함수를 안 썼으니)
+
+트렌젝션
+Commit : 트렌젝션 시작할 때부터 끝날 때까지 실행됐던 쿼리문을 영구적으로 업데이트 하는 것.
+Rollback : 트렌젝션 시작할 때부터 끝날 때까지 실행됐던 쿼리문을 취소하는 것. 데이터베이스에 저장되지 않도록 롤백
+
+무결성 조건 : 데이터 베이스에 잘못된 값이 들어와서 데이터베이스가 망가지는 것을 방지해 줌.
+
+- NOT NULL : NULL 값을 허용하지 않는다.
+- PRIMARY KEY : 튜플들 구분할 때
+- UNIQUE : 유일해야한다. 중복이 없어야 한다.
+- CHECK(P), 식을 체크하라
+
+``` sql
+check(semester in ('Fall', 'Winter', 'Spring', 'Summer'))
+```
+
+참조 무결성
+``` sql
+foreign key(dept_name) references department (dept_name)
+on delete cascade
+on update cascade
+```
+맨 뒤에 dept_name 안 쓰면 department 릴레이션의 기본키가 참조됨.
+cascade 옵션을 추가하면 참조 무결성을 깨는 것을 허용함.
+참조하고 있는 값을 지워버리면 그 참조 당하는 튜플도 지워짐.
+
+권한 주기/뺏기
+``` sql
+grant select on department to Amit, Satoshi
+
+revoke select on student from Amit, Satoshi
+```
+참고 : 뷰에 권한을 줬다고 해서 뷰가 기반으로 하는 테이블에는 아무 권한이 없음
+
+유저별로 역할 설정
+``` sql
+create role instructor
+grant instructor to Amit
+```
+instructor 라는 역할을 만들고 Amit에게 그 역할을 주라는 뜻.
+
+이외의 권한들
+``` sql
+grant reference 어트리뷰트명 on 테이블명 to 유저이름
+grant select on department to Amit with grant option
+revoke select on department from Amit, Satoshi cascade
+revoke select on department from Amit, Satoshi restrict
+```
+1. 외래키를 줄 수 있는 권한을 줌
+2. 누군가에게 자신과 똑같은 권한을 부여할 수 있음.
+3. cascade를 쓰면 해당 유저 권한 뿐만 아니라 해당 유저가 권한을 준 유저들의 권한도 뺏음
+4. restrict을 붙이면 해당 유저가 권한을 준 사람이 없을 때만 revoke를 실행하게 됨.
 ---
+
+
+
+
+---
+
