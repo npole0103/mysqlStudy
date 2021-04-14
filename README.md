@@ -543,7 +543,77 @@ revoke select on department from Amit, Satoshi restrict
 3. cascade를 쓰면 해당 유저 권한 뿐만 아니라 해당 유저가 권한을 준 유저들의 권한도 뺏음
 4. restrict을 붙이면 해당 유저가 권한을 준 사람이 없을 때만 revoke를 실행하게 됨.
 ---
+### Chap 5
 
+다이나믹 SQL : 대부분의 쿼리를 스트링으로 저장, 컴파일러는 스트링의 내용을 보진 않음. 런타임을 통해서야 확인이 가능. 컴파일러 입장에서는 쿼리는 그냥 스트링일 뿐. JDBC가 여기 속함.
+
+임베디드 SQL : 다이나믹 SQL과 다르게 컴파일 과정에서 SQL 명령어가 번역이 됨. 런타임시에는 SQL이 수행이 됨.
+
+JDBC
+1. Connection을 Open
+2. Statement Object 만들기 – 실행하고 싶은 명령어 statement에 저장
+3. 스테이트 먼트 오브젝트르 실행해서 결과를 받아옴.
+4. 쿼리를 가지고 오다가 에러가 발생하면 예외를 처리하기 위한 매커니즘을 만들어야함.
+
+``` java
+Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@db.kw.edu:2000:univdb", userid, passwd);
+
+Statement stmt = conn.createStatement();
+
+stmt.executeUpdate("insert into instructor values('77987', 'Kim', 'Physics', 98000)");
+
+ResultSet set = stmt.executeQuery("SELECT dept_name, avg(salary) FROM instructor GROUP BY dept_name")
+
+while(rset.next())
+{
+  System.out.println(rest.getString("dept_name") + " " + rset.getFloat(2));
+}
+
+stmt.close();
+conn.colse();
+```
+인덱스 넘버가 0번부터 시작하는 것이 아닌 1번부터 시작한다. 어트리뷰트 1번부터 시작
+
+널 값을 처리할 때 NULL이어도 0을 리턴하고, 0이어도 0을 리턴하기 때문에 NULL인지 0인지 알 수 없는데 이때 `rs.wasNull()`함수를 사용하여 NULL을 처리.
+
+
+SQL 인젝션을 방지하기 위해 PreparedStatement를 사용해야함.
+``` java
+PreparedStatement pStmt = conn.prepareStatement("insert into instructor value(?,?,?,?)");
+
+pStmt.setString(1, "88877");
+pStmt.setString(2, "Perry");
+pStmt.setString(3, "Finance");
+pStmt.setInt(4, 125000);
+pStmt.executeUpdate();
+pStmt.setString(1, "88878");
+pStmt.executeUpdate();
+```
+
+SQL 인젝션
+데이터를 입력해야하는 상황에 예를 들어
+`X' or 'Y' = 'Y`라는 값을 넣게 되면 쿼리문은 조건을 참으로 인식하여 의도치 않은 상황을 만들게 할 수 있음.
+
+그렇기 때문에  Prepared Statement를 사용해야함. escape character를 사용하여 SQL 공격을 차단할 수 있기 때문.
+
+메타데이터를 가져오는 방법도 있음.
+``` java
+ResultSet rs;
+ResultSetMetaData rsmd = rs.getMetaData();
+for(int i = 1 ; i <= rsmd.getColumnCount(); i++)
+{
+  System.out.println(rsmd.getColumnName(i));
+  System.out.println(rsmd.getColumnTypeName(i));
+}
+```
+Security with External Lauguage Routines
+외부 functions에 오류가 있다면 DB시스템을 망칠 수 있음. 이러한 것을 방지하기 위해
+Sandbox라는 테크닉이 존재함. 외부 데이터베이스 메모리에 접근이 불가능 하도록 공간을 따로 두어서 거기서만 작업하게 됨. 내부 루틴들을 별도의 프로세스로 실행을 해서 DB프로세스에 접근 못하게.
+Sandbox를 쓰거나 별도의 프로세스를 써도 오버헤드가 발생하는 건 같음. 공유메모리가 아니기에. 오버헤드 때문에 일부 DB에서는 공유메모리를 쓰는 법도 지원함
+
+Triggers : DB에 변경사항이 생겼을 때 자동으로 실행되도록 되어있는 명령어.
+
+---
 
 
 
