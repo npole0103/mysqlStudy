@@ -412,6 +412,11 @@ SELECT dept_name, avg(salary) as avg_salary FROM instructor GROUP BY dept_name
 
 SELECT dept_name, avg(salary) as avg_salary FROM instructor GROUP BY dept_name HAVING avg(salary) > 42000
 ```
+1. 컴퓨터 사이언스 학과 교수들의 평균 연봉
+2. Spring 2018에 수업을 담당하는 교원이 몇명인지
+3. course 릴레이션의 모든 튜플의 갯수
+4. 각 학과의 평균 연봉
+5. 각 학과의 평균 연봉 > 42000 이상
 
 Nested Subqueries 종복된 서브쿼리
 
