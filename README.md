@@ -435,7 +435,9 @@ SELECT name FROM instructor WHERE salary > some(SELECT salary FROM instructor WH
 
 Exists 존재하는지 여부
 ``` sql
-SELECT course_id FROM section as S WHERE semester="Fall" and year=2017 and exists(SELECT * FROM section as T WHERE semester="Spring" and year=2018 and S.course_id = T.course_id)
+SELECT course_id FROM section as S WHERE semester="Fall" and year=2017 and 
+exists(SELECT * FROM section as T 
+WHERE semester="Spring" and year=2018 and S.course_id = T.course_id)
 ```
 
 Exists 공집합이여야 트루가 됨. 생물학과에서 들어야하는 모든 강의를 수강한 것.
